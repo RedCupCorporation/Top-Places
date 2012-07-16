@@ -10,4 +10,6 @@
 
 @interface PhotosTableViewController : GenericTableViewController
 
+@property (nonatomic, strong) NSDictionary *locationReference; // for Flickr API
+
 @end

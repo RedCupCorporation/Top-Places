@@ -7,29 +7,56 @@
 //
 
 #import "PhotosTableViewController.h"
+#import "FlickrFetcher.h"
+
+@interface PhotosTableViewController ()
+
+@property (nonatomic, strong) NSArray *photoList;
+
+@end
 
 @implementation PhotosTableViewController
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+@synthesize locationReference = _locationReference;
+@synthesize photoList = _photoList;
+
+- (NSArray *)photoList {
+    if (!_photoList) {
+        self.photoList = [FlickrFetcher photosInPlace:self.locationReference maxResults:50];
+    }
+    return _photoList;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+- (void)setPhotoList:(NSArray *)photoList {
+    if (photoList != _photoList) {
+        _photoList = photoList;
+        [self.tableView reloadData];
+    }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Left this method in here in case I want to implement sections later
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.photoList.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"photo";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    NSDictionary *photoInformation = [self.photoList objectAtIndex:indexPath.row];
+    cell.textLabel.text = [photoInformation objectForKey:@"title"];
+    cell.detailTextLabel.text = [photoInformation valueForKeyPath:@"description._content"];
+    if (cell.textLabel.text.length == 0) {
+        if (cell.detailTextLabel.text.length == 0) {
+            cell.textLabel.text = @"Unknown";
+        } else {
+            cell.textLabel.text = cell.detailTextLabel.text;
+        }
+    }
     
     return cell;
 }
