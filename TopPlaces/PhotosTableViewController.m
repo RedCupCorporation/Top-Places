@@ -20,11 +20,11 @@
 @synthesize locationReference = _locationReference;
 @synthesize photoList = _photoList;
 
-- (NSArray *)photoList {
-    if (!_photoList) {
+- (void)setLocationReference:(NSDictionary *)locationReference {
+    if (locationReference != _locationReference) {
+        _locationReference = locationReference;
         self.photoList = [FlickrFetcher photosInPlace:self.locationReference maxResults:50];
     }
-    return _photoList;
 }
 
 - (void)setPhotoList:(NSArray *)photoList {
