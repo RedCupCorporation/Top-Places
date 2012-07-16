@@ -8,6 +8,7 @@
 
 #import "PhotosTableViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoViewController.h"
 
 @interface PhotosTableViewController ()
 
@@ -31,6 +32,15 @@
     if (photoList != _photoList) {
         _photoList = photoList;
         [self.tableView reloadData];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"segueToPhotoView"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        [segue.destinationViewController setPhotoReference:[self.photoList objectAtIndex:indexPath.row]];
+        UITableViewCell *cell = sender;
+        [segue.destinationViewController navigationItem].title = cell.textLabel.text;
     }
 }
 

@@ -62,6 +62,8 @@
         cell.detailTextLabel.text = [cell.detailTextLabel.text stringByAppendingFormat:@", %@", [locationArray objectAtIndex:i]];
     }
     
+#warning Alphabetize
+    
     return cell;
 }
 

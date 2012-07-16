@@ -53,7 +53,7 @@
                     <navigationItem key="navigationItem" title="Top Places" id="WDH-jZ-73f"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2570" y="109"/>
+            <point key="canvasLocation" x="2448" y="109"/>
         </scene>
         <!--Photos Table View Controller - Recent Photos-->
         <scene sceneID="TLr-Ey-MF4">
@@ -65,11 +65,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="photo" textLabel="WfP-o3-MAn" detailTextLabel="1hF-Or-Uzo" style="IBUITableViewCellStyleSubtitle" id="Dgc-rQ-TLi">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="photo" textLabel="WfP-o3-MAn" detailTextLabel="1hF-Or-Uzo" style="IBUITableViewCellStyleSubtitle" id="Dgc-rQ-TLi">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WfP-o3-MAn">
@@ -89,6 +89,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="Dsd-jo-Uc1" kind="push" identifier="segueToPhotoView" id="ycX-xy-psc"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -99,7 +102,34 @@
                     <navigationItem key="navigationItem" title="Recent Photos" id="nVz-rq-aS7"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2969" y="109"/>
+            <point key="canvasLocation" x="2847" y="109"/>
+        </scene>
+        <!--Photo View Controller - Photo-->
+        <scene sceneID="4Ns-IN-oyb">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="evp-kH-32g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Dsd-jo-Uc1" customClass="PhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qaD-CN-gki">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="eOo-VI-j0f">
+                                <rect key="frame" x="-20" y="-20" width="360" height="407"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="frg-NL-nke">
+                                        <rect key="frame" x="20" y="20" width="320" height="367"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Photo" id="M8x-yE-ikA"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="3248" y="109"/>
         </scene>
         <!--Photos Table View Controller - Recently Viewed-->
         <scene sceneID="fHx-mk-kgc">
@@ -145,7 +175,7 @@
                     <navigationItem key="navigationItem" title="Recently Viewed" id="4UG-gL-f0a"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2570" y="693"/>
+            <point key="canvasLocation" x="2448" y="693"/>
         </scene>
         <!--Navigation Controller - Top Places-->
         <scene sceneID="vFE-PC-XMy">
