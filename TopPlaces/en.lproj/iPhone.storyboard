@@ -111,13 +111,13 @@
                 <viewController id="Dsd-jo-Uc1" customClass="PhotoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qaD-CN-gki">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="eOo-VI-j0f">
                                 <rect key="frame" x="-20" y="-20" width="360" height="407"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="frg-NL-nke">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="frg-NL-nke">
                                         <rect key="frame" x="20" y="20" width="320" height="367"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
@@ -127,6 +127,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Photo" id="M8x-yE-ikA"/>
+                    <connections>
+                        <outlet property="imageView" destination="frg-NL-nke" id="gSD-iW-YxB"/>
+                        <outlet property="scrollView" destination="eOo-VI-j0f" id="qb8-wm-mab"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="3248" y="109"/>

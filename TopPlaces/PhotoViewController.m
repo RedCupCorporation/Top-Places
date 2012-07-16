@@ -12,6 +12,8 @@
 @interface PhotoViewController ()
 
 @property (nonatomic, strong) UIImage *photo;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -19,6 +21,8 @@
 
 @synthesize photoReference = _photoReference;
 @synthesize photo = _photo;
+@synthesize scrollView = _scrollView;
+@synthesize imageView = _imageView;
 
 - (void)setPhotoReference:(NSDictionary *)photoReference {
     if (photoReference != _photoReference) {
@@ -29,17 +33,23 @@
 }
 
 - (void)setPhoto:(UIImage *)photo {
-    // Update if necessary
+    if (photo != _photo) {
+        _photo = photo;
+        self.imageView.image = self.photo;
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.imageView.image = self.photo;
 	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload
 {
+    [self setScrollView:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
