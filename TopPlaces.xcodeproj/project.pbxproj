@@ -10,6 +10,7 @@
 		3BBF875E15B39EE100572B65 /* GenericTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF875D15B39EE100572B65 /* GenericTableViewController.m */; };
 		3BBF876115B39F0A00572B65 /* PlacesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF876015B39F0A00572B65 /* PlacesTableViewController.m */; };
 		3BBF876415B39F1C00572B65 /* PhotosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF876315B39F1C00572B65 /* PhotosTableViewController.m */; };
+		3BBF876715B3DABC00572B65 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBF876615B3DABC00572B65 /* PhotoViewController.m */; };
 		3BC62CC015B29020001F49E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC62CBF15B29020001F49E3 /* UIKit.framework */; };
 		3BC62CC215B29020001F49E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC62CC115B29020001F49E3 /* Foundation.framework */; };
 		3BC62CC415B29020001F49E3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC62CC315B29020001F49E3 /* CoreGraphics.framework */; };
@@ -28,6 +29,8 @@
 		3BBF876015B39F0A00572B65 /* PlacesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesTableViewController.m; sourceTree = "<group>"; };
 		3BBF876215B39F1C00572B65 /* PhotosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosTableViewController.h; sourceTree = "<group>"; };
 		3BBF876315B39F1C00572B65 /* PhotosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosTableViewController.m; sourceTree = "<group>"; };
+		3BBF876515B3DABC00572B65 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		3BBF876615B3DABC00572B65 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		3BC62CBB15B29020001F49E3 /* TopPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC62CBF15B29020001F49E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3BC62CC115B29020001F49E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,13 +96,15 @@
 				3BD3F06E15B3326900CE0EFF /* FlickrFetcher.h */,
 				3BD3F06F15B3326900CE0EFF /* FlickrFetcher.m */,
 				3BC62CD115B29020001F49E3 /* iPhone.storyboard */,
+				3BC62CD415B29020001F49E3 /* iPad.storyboard */,
 				3BBF875C15B39EE100572B65 /* GenericTableViewController.h */,
 				3BBF875D15B39EE100572B65 /* GenericTableViewController.m */,
 				3BBF875F15B39F0A00572B65 /* PlacesTableViewController.h */,
 				3BBF876015B39F0A00572B65 /* PlacesTableViewController.m */,
 				3BBF876215B39F1C00572B65 /* PhotosTableViewController.h */,
 				3BBF876315B39F1C00572B65 /* PhotosTableViewController.m */,
-				3BC62CD415B29020001F49E3 /* iPad.storyboard */,
+				3BBF876515B3DABC00572B65 /* PhotoViewController.h */,
+				3BBF876615B3DABC00572B65 /* PhotoViewController.m */,
 				3BC62CC615B29020001F49E3 /* Supporting Files */,
 			);
 			path = TopPlaces;
@@ -189,6 +194,7 @@
 				3BBF875E15B39EE100572B65 /* GenericTableViewController.m in Sources */,
 				3BBF876115B39F0A00572B65 /* PlacesTableViewController.m in Sources */,
 				3BBF876415B39F1C00572B65 /* PhotosTableViewController.m in Sources */,
+				3BBF876715B3DABC00572B65 /* PhotoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
