@@ -22,7 +22,9 @@
 
 - (NSArray *)placeList {
     if (!_placeList) {
-        self.placeList = [FlickrFetcher topPlaces];
+        NSArray *topPlaces = [FlickrFetcher topPlaces];
+        topPlaces = [topPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"_content" ascending:TRUE]]];
+        self.placeList = topPlaces;
     }
     return _placeList;
 }
@@ -61,8 +63,6 @@
     for (int i = 2; i < locationArray.count; i++) {
         cell.detailTextLabel.text = [cell.detailTextLabel.text stringByAppendingFormat:@", %@", [locationArray objectAtIndex:i]];
     }
-    
-#warning Alphabetize
     
     return cell;
 }
