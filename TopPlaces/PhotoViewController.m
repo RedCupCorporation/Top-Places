@@ -46,8 +46,6 @@
     self.imageView.image = self.photo;
     self.scrollView.contentSize = self.imageView.image.size;
     self.imageView.frame = CGRectMake(0, 0, self.photo.size.width, self.photo.size.height);
-    self.scrollView.clipsToBounds = TRUE;
-    NSLog(@"%@", CGSizeCreateDictionaryRepresentation(self.scrollView.contentSize));
 }
 
 - (void)setZoomScale {
@@ -64,10 +62,6 @@
         self.scrollView.minimumZoomScale = self.scrollView.bounds.size.height / self.photo.size.height;
     }
     self.scrollView.maximumZoomScale = self.scrollView.minimumZoomScale * 25;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    NSLog(@"%@", CGSizeCreateDictionaryRepresentation(self.scrollView.contentSize));
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
