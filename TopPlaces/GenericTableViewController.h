@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GenericTableViewController : UITableViewController
+@interface GenericTableViewController : UITableViewController <UITabBarControllerDelegate>
 
 @end
