@@ -9,11 +9,14 @@
 #import "PhotoViewController.h"
 #import "FlickrFetcher.h"
 
-@interface PhotoViewController ()
+@interface PhotoViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIImage *photo;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+- (void)initializeContent;
+- (void)setZoomScale;
 
 @end
 
@@ -27,7 +30,7 @@
 - (void)setPhotoReference:(NSDictionary *)photoReference {
     if (photoReference != _photoReference) {
         _photoReference = photoReference;
-        NSURL *photoURL = [FlickrFetcher urlForPhoto:self.photoReference format:FlickrPhotoFormatOriginal];
+        NSURL *photoURL = [FlickrFetcher urlForPhoto:self.photoReference format:FlickrPhotoFormatLarge];
         self.photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
     }
 }
@@ -39,15 +42,48 @@
     }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)initializeContent {
     self.imageView.image = self.photo;
-	// Do any additional setup after loading the view.
+    self.scrollView.contentSize = self.imageView.image.size;
+    self.imageView.frame = CGRectMake(0, 0, self.photo.size.width, self.photo.size.height);
+    self.scrollView.clipsToBounds = TRUE;
+    NSLog(@"%@", CGSizeCreateDictionaryRepresentation(self.scrollView.contentSize));
 }
 
-- (void)viewDidUnload
-{
+- (void)setZoomScale {
+    CGFloat scrollViewAspectRatio = self.scrollView.bounds.size.width / self.scrollView.bounds.size.height;
+    CGFloat photoAspectRatio = self.photo.size.width / self.photo.size.height;
+    BOOL lockHeight = photoAspectRatio > scrollViewAspectRatio;
+    if (lockHeight) {
+        self.scrollView.contentOffset = CGPointMake((self.photo.size.width - self.scrollView.bounds.size.width) / 2, 0);
+        self.scrollView.zoomScale = self.scrollView.bounds.size.height / self.photo.size.height;
+        self.scrollView.minimumZoomScale = self.scrollView.bounds.size.width / self.photo.size.width;
+    } else {
+        self.scrollView.contentOffset = CGPointMake(0, (self.photo.size.height - self.scrollView.bounds.size.height) / 2);
+        self.scrollView.zoomScale = self.scrollView.bounds.size.width / self.photo.size.width;
+        self.scrollView.minimumZoomScale = self.scrollView.bounds.size.height / self.photo.size.height;
+    }
+    self.scrollView.maximumZoomScale = self.scrollView.minimumZoomScale * 25;
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    NSLog(@"%@", CGSizeCreateDictionaryRepresentation(self.scrollView.contentSize));
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.imageView;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self initializeContent];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self setZoomScale];
+}
+
+- (void)viewDidUnload {
     [self setScrollView:nil];
     [self setImageView:nil];
     [super viewDidUnload];
@@ -56,7 +92,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 @end
