@@ -11,7 +11,6 @@
 
 @interface PhotoViewController () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) UIImage *photo;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
@@ -26,12 +25,14 @@
 @synthesize photo = _photo;
 @synthesize scrollView = _scrollView;
 @synthesize imageView = _imageView;
+@synthesize delegate = _delegate;
 
 - (void)setPhotoReference:(NSDictionary *)photoReference {
     if (photoReference != _photoReference) {
         _photoReference = photoReference;
         NSURL *photoURL = [FlickrFetcher urlForPhoto:self.photoReference format:FlickrPhotoFormatLarge];
         self.photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
+        [self.delegate photoViewController:self viewedPhoto:self.photo withReference:self.photoReference];
     }
 }
 
