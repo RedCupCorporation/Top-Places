@@ -40,7 +40,6 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    NSLog(@"didSelectViewController: %@", viewController.childViewControllers);
     if ([[viewController.childViewControllers lastObject] isKindOfClass:[PlacesTableViewController class]]) {
         self.tableViewDataSource = self.topPlaces;
     } else if ([[viewController.childViewControllers lastObject] isKindOfClass:[PhotosTableViewController class]]) {

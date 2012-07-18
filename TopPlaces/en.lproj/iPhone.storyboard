@@ -173,7 +173,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="9PQ-Mv-8eH" kind="push" id="Kcu-lW-Wgs"/>
+                                    <segue destination="9PQ-Mv-8eH" kind="push" identifier="segueToPhotoView" id="Kcu-lW-Wgs"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -278,6 +278,24 @@
             <point key="canvasLocation" x="2847" y="693"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="GenericTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GenericTableViewController.h"/>
+        </class>
+        <class className="PhotoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="PhotosTableViewController" superclassName="GenericTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosTableViewController.h"/>
+        </class>
+        <class className="PlacesTableViewController" superclassName="GenericTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlacesTableViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

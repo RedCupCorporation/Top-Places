@@ -92,8 +92,6 @@
     [self.photoCache setObject:photo forKey:photoReference];
     
     [defaults setObject:recentlyViewed forKey:RECENTLY_VIEWED_KEY];
-    NSLog(@"recently viewed: %@", recentlyViewed);
-    NSLog(@"photo cache: %@", self.photoCache);
     [defaults synchronize];
 }
 
