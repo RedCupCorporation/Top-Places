@@ -13,28 +13,46 @@
 
 @interface GenericTableViewController ()
 
-@property (nonatomic, strong) NSArray *tableViewDataSource;
+@property (nonatomic, readonly) NSArray *topPlaces;
+@property (nonatomic, readonly) NSArray *recentlyViewed;
 
 @end
 
 @implementation GenericTableViewController
 
 @synthesize tableViewDataSource = _tableViewDataSource;
+@synthesize topPlaces = _topPlaces;
+@synthesize recentlyViewed = _recentlyViewed;
 
-- (void)viewDidLoad {
+- (void)awakeFromNib {
+    [super awakeFromNib];
     self.tabBarController.delegate = self;
 }
 
-#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
+- (NSArray *)topPlaces {
+    NSArray *array = [FlickrFetcher topPlaces];
+    array = [array sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"_content" ascending:TRUE]]];
+    return array;
+}
+
+- (NSArray *)recentlyViewed {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
+}
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if ([viewController isKindOfClass:[PlacesTableViewController class]]) {
-        NSArray *topPlaces = [FlickrFetcher topPlaces];
-        topPlaces = [topPlaces sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"_content" ascending:TRUE]]];
-        self.tableViewDataSource = topPlaces;
-    } else if ([viewController isKindOfClass:[PhotosTableViewController class]]) {
-        self.tableViewDataSource = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
+    NSLog(@"didSelectViewController: %@", viewController.childViewControllers);
+    if ([[viewController.childViewControllers lastObject] isKindOfClass:[PlacesTableViewController class]]) {
+        self.tableViewDataSource = self.topPlaces;
+    } else if ([[viewController.childViewControllers lastObject] isKindOfClass:[PhotosTableViewController class]]) {
+        self.tableViewDataSource = self.recentlyViewed;
     }
+}
+
+- (NSArray *)tableViewDataSource {
+    if (!_tableViewDataSource) {
+        self.tableViewDataSource = self.topPlaces;
+    }
+    return _tableViewDataSource;
 }
 
 - (void)setTableViewDataSource:(NSArray *)tableViewDataSource {

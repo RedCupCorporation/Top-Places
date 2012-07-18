@@ -12,7 +12,6 @@
 
 @interface PhotosTableViewController () <PhotoViewControllerDelegate>
 
-@property (nonatomic, strong) NSArray *photoList;
 @property (nonatomic, strong) NSMutableDictionary *photoCache;
 
 - (BOOL)photo:(NSDictionary *)reference isContainedInArray:(NSArray *)array;
@@ -22,7 +21,6 @@
 @implementation PhotosTableViewController
 
 @synthesize locationReference = _locationReference;
-@synthesize photoList = _photoList;
 @synthesize photoCache = _photoCache;
 
 #define MAX_FLICKR_RESULTS 50
@@ -30,14 +28,7 @@
 - (void)setLocationReference:(NSDictionary *)locationReference {
     if (locationReference != _locationReference) {
         _locationReference = locationReference;
-        self.photoList = [FlickrFetcher photosInPlace:self.locationReference maxResults:MAX_FLICKR_RESULTS];
-    }
-}
-
-- (void)setPhotoList:(NSArray *)photoList {
-    if (photoList != _photoList) {
-        _photoList = photoList;
-        //[self.tableView reloadData];
+        self.tableViewDataSource = [FlickrFetcher photosInPlace:self.locationReference maxResults:MAX_FLICKR_RESULTS];
     }
 }
 
@@ -46,24 +37,11 @@
     return _photoCache;
 }
 
-#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
-
-- (NSArray *)photoList {
-    if (self.tabBarController.selectedIndex == 1) self.photoList = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
-    return _photoList;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.tableView reloadData];
-}
-
-#warning Still must fix bug that leaves the last recently viewed photo out after the user selects a new photo
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"segueToPhotoView"]) {
         [segue.destinationViewController setDelegate:self];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *photoReference = [self.photoList objectAtIndex:indexPath.row];
+        NSDictionary *photoReference = [self.tableViewDataSource objectAtIndex:indexPath.row];
         UIImage *photo = [self.photoCache objectForKey:photoReference];
         if (photo) {    // Set photo explicitly if contained in cache
             [segue.destinationViewController setPhoto:photo];
@@ -75,20 +53,15 @@
     }
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Left this method in here in case I want to implement sections later
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.photoList.count;
+    return self.tableViewDataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"photo";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    NSDictionary *photoInformation = [self.photoList objectAtIndex:indexPath.row];
+    NSDictionary *photoInformation = [self.tableViewDataSource objectAtIndex:indexPath.row];
     cell.textLabel.text = [photoInformation objectForKey:@"title"];
     cell.detailTextLabel.text = [photoInformation valueForKeyPath:@"description._content"];
     if (cell.textLabel.text.length == 0) {

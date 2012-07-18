@@ -10,4 +10,8 @@
 
 @interface GenericTableViewController : UITableViewController <UITabBarControllerDelegate>
 
+#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
+
+@property (nonatomic, strong) NSArray *tableViewDataSource;
+
 @end
