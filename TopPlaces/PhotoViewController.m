@@ -44,9 +44,10 @@
 }
 
 - (void)initializeContent {
+    self.scrollView.delegate = self;
     self.imageView.image = self.photo;
     self.scrollView.contentSize = self.imageView.image.size;
-    self.imageView.frame = CGRectMake(0, 0, self.photo.size.width, self.photo.size.height);
+    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
 }
 
 - (void)setZoomScale {
@@ -69,12 +70,9 @@
     return self.imageView;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillLayoutSubviews {
+    self.scrollView.zoomScale = 1;
     [self initializeContent];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
     [self setZoomScale];
 }
 
@@ -85,8 +83,7 @@
     // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 

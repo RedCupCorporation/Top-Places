@@ -77,6 +77,8 @@
 
 #define MAX_RECENT_PHOTOS 20
 
+#warning Crash: view photo, switch tabs, switch back, back to photoTableViewController, all photos say Unknown
+
 - (void)photoViewController:(PhotoViewController *)sender viewedPhoto:(UIImage *)photo withReference:(NSDictionary *)photoReference {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *recentlyViewed = [[defaults objectForKey:RECENTLY_VIEWED_KEY] mutableCopy];
