@@ -70,6 +70,12 @@
     return self.imageView;
 }
 
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    CGFloat extraHeight = scrollView.bounds.size.height - scrollView.contentSize.height;
+    CGFloat extraWidth = scrollView.bounds.size.width - scrollView.contentSize.width;
+    scrollView.contentInset = UIEdgeInsetsMake(extraHeight > 0 ? extraHeight / 2 : 0, extraWidth > 0 ? extraWidth / 2 : 0, 0, 0);
+}
+
 - (void)viewWillLayoutSubviews {
     self.scrollView.zoomScale = 1;
     [self initializeContent];
