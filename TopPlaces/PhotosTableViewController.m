@@ -29,10 +29,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (!self.locationReference) {
-        self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
-        [self.tableView reloadData];
-    }
+    if (!self.locationReference) self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
 }
 
 #define MAX_FLICKR_RESULTS 50
