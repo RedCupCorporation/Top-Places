@@ -28,8 +28,11 @@
 #define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (!self.locationReference) self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
-    [self.tableView reloadData];
+    [super viewWillAppear:animated];
+    if (!self.locationReference) {
+        self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
+        [self.tableView reloadData];
+    }
 }
 
 #define MAX_FLICKR_RESULTS 50
