@@ -8,6 +8,6 @@
 
 #import "GenericTableViewController.h"
 
-@interface PlacesTableViewController : GenericTableViewController
+@interface PlacesTableViewController : GenericTableViewController 
 
 @end

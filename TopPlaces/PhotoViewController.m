@@ -44,7 +44,7 @@
 }
 
 - (void)initializeContent {
-    self.scrollView.delegate = self;
+    // self.scrollView.delegate is set in the storyboard
     self.imageView.image = self.photo;
     self.scrollView.contentSize = self.imageView.image.size;
     self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);

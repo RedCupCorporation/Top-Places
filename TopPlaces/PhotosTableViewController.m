@@ -12,6 +12,7 @@
 
 @interface PhotosTableViewController () <PhotoViewControllerDelegate>
 
+@property (nonatomic, strong) NSArray *photos;
 @property (nonatomic, strong) NSMutableDictionary *photoCache;
 
 - (BOOL)photo:(NSDictionary *)reference isContainedInArray:(NSArray *)array;
@@ -21,6 +22,7 @@
 @implementation PhotosTableViewController
 
 @synthesize locationReference = _locationReference;
+@synthesize photos = _photos;
 @synthesize photoCache = _photoCache;
 
 #define MAX_FLICKR_RESULTS 50
@@ -28,7 +30,24 @@
 - (void)setLocationReference:(NSDictionary *)locationReference {
     if (locationReference != _locationReference) {
         _locationReference = locationReference;
-        self.tableViewDataSource = [FlickrFetcher photosInPlace:self.locationReference maxResults:MAX_FLICKR_RESULTS];
+        self.photos = [FlickrFetcher photosInPlace:self.locationReference maxResults:MAX_FLICKR_RESULTS];
+    }
+}
+
+#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
+
+- (NSArray *)photos {
+    // Lazily instantiate if there is no locationReference
+    // Automatically updated if locationReference is set
+    // Automatically updated if no locationReference and userDefaults is updated
+    if (!_photos && !self.locationReference) self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
+    return _photos;
+}
+
+- (void)setPhotos:(NSArray *)photos {
+    if (photos != _photos) {
+        _photos = photos;
+        [self.tableView reloadData];
     }
 }
 
@@ -41,7 +60,7 @@
     if ([segue.identifier isEqualToString:@"segueToPhotoView"]) {
         [segue.destinationViewController setDelegate:self];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        NSDictionary *photoReference = [self.tableViewDataSource objectAtIndex:indexPath.row];
+        NSDictionary *photoReference = [self.photos objectAtIndex:indexPath.row];
         UIImage *photo = [self.photoCache objectForKey:photoReference];
         if (photo) {    // Set photo explicitly if contained in cache
             [segue.destinationViewController setPhoto:photo];
@@ -54,14 +73,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tableViewDataSource.count;
+    return self.photos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"photo";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    NSDictionary *photoInformation = [self.tableViewDataSource objectAtIndex:indexPath.row];
+    NSDictionary *photoInformation = [self.photos objectAtIndex:indexPath.row];
     cell.textLabel.text = [photoInformation objectForKey:@"title"];
     cell.detailTextLabel.text = [photoInformation valueForKeyPath:@"description._content"];
     if (cell.textLabel.text.length == 0) {
@@ -77,8 +96,6 @@
 
 #define MAX_RECENT_PHOTOS 20
 
-#warning Crash: view photo, switch tabs, switch back, back to photoTableViewController, all photos say Unknown
-
 - (void)photoViewController:(PhotoViewController *)sender viewedPhoto:(UIImage *)photo withReference:(NSDictionary *)photoReference {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *recentlyViewed = [[defaults objectForKey:RECENTLY_VIEWED_KEY] mutableCopy];
@@ -92,6 +109,7 @@
     if (recentlyViewed.count >= MAX_RECENT_PHOTOS) [recentlyViewed removeLastObject];
     [recentlyViewed insertObject:photoReference atIndex:0];
     [self.photoCache setObject:photo forKey:photoReference];
+    if (!self.locationReference) self.photos = recentlyViewed;
     
     [defaults setObject:recentlyViewed forKey:RECENTLY_VIEWED_KEY];
     [defaults synchronize];
