@@ -25,6 +25,13 @@
 @synthesize photos = _photos;
 @synthesize photoCache = _photoCache;
 
+#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
+
+- (void)viewWillAppear:(BOOL)animated {
+    if (!self.locationReference) self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
+    [self.tableView reloadData];
+}
+
 #define MAX_FLICKR_RESULTS 50
 
 - (void)setLocationReference:(NSDictionary *)locationReference {
@@ -32,16 +39,6 @@
         _locationReference = locationReference;
         self.photos = [FlickrFetcher photosInPlace:self.locationReference maxResults:MAX_FLICKR_RESULTS];
     }
-}
-
-#define RECENTLY_VIEWED_KEY @"PhotosTableViewController.RecentlyViewed"
-
-- (NSArray *)photos {
-    // Lazily instantiate if there is no locationReference
-    // Automatically updated if locationReference is set
-    // Automatically updated if no locationReference and userDefaults is updated
-    if (!_photos && !self.locationReference) self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:RECENTLY_VIEWED_KEY];
-    return _photos;
 }
 
 - (void)setPhotos:(NSArray *)photos {
@@ -61,12 +58,7 @@
         [segue.destinationViewController setDelegate:self];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NSDictionary *photoReference = [self.photos objectAtIndex:indexPath.row];
-        UIImage *photo = [self.photoCache objectForKey:photoReference];
-        if (photo) {    // Set photo explicitly if contained in cache
-            [segue.destinationViewController setPhoto:photo];
-        } else {
-            [segue.destinationViewController setPhotoReference:photoReference];
-        }
+        [segue.destinationViewController setPhotoReference:photoReference];
         UITableViewCell *cell = sender;
         [segue.destinationViewController navigationItem].title = cell.textLabel.text;
     }
@@ -109,7 +101,6 @@
     if (recentlyViewed.count >= MAX_RECENT_PHOTOS) [recentlyViewed removeLastObject];
     [recentlyViewed insertObject:photoReference atIndex:0];
     [self.photoCache setObject:photo forKey:photoReference];
-    if (!self.locationReference) self.photos = recentlyViewed;
     
     [defaults setObject:recentlyViewed forKey:RECENTLY_VIEWED_KEY];
     [defaults synchronize];
@@ -121,6 +112,10 @@
         if ([photoID isEqualToString:[dict objectForKey:@"id"]]) return TRUE;
     }
     return FALSE;
+}
+
+- (UIImage *)photoWithReference:(NSDictionary *)photoReference {
+    return [self.photoCache objectForKey:photoReference];
 }
 
 @end

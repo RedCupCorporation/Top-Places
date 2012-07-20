@@ -13,13 +13,13 @@
 
 @optional
 - (void)photoViewController:(PhotoViewController *)sender viewedPhoto:(UIImage *)photo withReference:(NSDictionary *)photoReference;
+- (UIImage *)photoWithReference:(NSDictionary *)photoReference;
 
 @end
 
 @interface PhotoViewController : UIViewController
 
 @property (nonatomic, strong) NSDictionary *photoReference;
-@property (nonatomic, strong) UIImage *photo;
 @property (nonatomic, weak) id <PhotoViewControllerDelegate> delegate;
 
 @end
